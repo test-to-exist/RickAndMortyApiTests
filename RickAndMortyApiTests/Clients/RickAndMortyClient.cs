@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using RestSharp;
+using RickAndMortyApiTests.DTO;
 
 namespace RickAndMortyApiTests.Clients
 {
@@ -14,7 +12,7 @@ namespace RickAndMortyApiTests.Clients
         {
             string _baseUrl = "https://rickandmortyapi.com";
             RestClientOptions _options = new RestClientOptions(_baseUrl);
-            RestClient _client = new RestClient(_options);
+            _client = new RestClient(_options);
         }
 
         public Task<RestResponse<Character>> GetCharacter(int id)
@@ -25,5 +23,4 @@ namespace RickAndMortyApiTests.Clients
             return _client.ExecuteAsync<Character>(request);
         }
     }
-}
 }
