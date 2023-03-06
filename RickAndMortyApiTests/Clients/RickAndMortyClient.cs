@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Configuration;
+using System.Numerics;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using RestSharp;
 using RickAndMortyApiTests.DTO;
 
@@ -10,7 +13,15 @@ namespace RickAndMortyApiTests.Clients
 
         public RickAndMortyClient()
         {
-            string _baseUrl = "https://rickandmortyapi.com";
+            //string _baseUrl = "https://rickandmortyapi.com";
+
+
+            IConfiguration configuration = new ConfigurationBuilder()
+               .AddJsonFile("appsettings.json", false, true)
+               .Build();
+            string _baseUrl = configuration.GetSection("baseUrl").Value;
+
+            //url.va
             RestClientOptions _options = new RestClientOptions(_baseUrl);
             _client = new RestClient(_options);
         }
