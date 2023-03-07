@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +29,11 @@ namespace RickAndMortyApiTests.Clients
             return GetEntity<Character>(nameof(Character).ToLower(), id);
         }
 
+        public Task<RestResponse<List<Character>>> GetCharacters(Dictionary<string, string> filters = null)
+        {
+            return GetEntities<Character>(nameof(Character).ToLower(), filters);
+        }
+
         public Task<RestResponse<Location>> GetLocation(int id)
         {
             return GetEntity<Location>(nameof(Location).ToLower(), id);
@@ -43,6 +50,20 @@ namespace RickAndMortyApiTests.Clients
             request.AddUrlSegment("entity", entity);
             request.AddUrlSegment("id", id.ToString());
             return _client.ExecuteAsync<T>(request);
+        }
+
+        private Task<RestResponse<List<T>>> GetEntities<T>(string entity, Dictionary<string, string> filters = null)
+        {
+            var request = new RestRequest("/api/{entity}/");
+            request.AddUrlSegment("entity", entity);
+            if (filters != null && filters.Count > 0)
+            {
+                foreach (var key in filters.Keys)
+                {
+                    request.AddParameter(key, filters[key]);
+                }
+            }
+            return _client.ExecuteAsync<List<T>>(request);
         }
     }
 }

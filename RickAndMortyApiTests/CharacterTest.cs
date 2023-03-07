@@ -5,8 +5,7 @@ using Xunit;
 using FluentAssertions;
 using RickAndMortyApiTests.DTO;
 using RickAndMortyApiTests.Clients;
-
-
+using System.Collections.Generic;
 
 public class RickAndMortyApiError
 {
@@ -43,6 +42,14 @@ namespace RickAndMortyApiTests
             RestResponse<Character> error = await _client.ExecuteAsync<Character>(request);
 
             error.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        //[Theory]
+        [Fact]
+        public async void CharacterEndpointWithNameFilterShouldReturnListWIthProperNames_Test()
+        {
+            RestResponse<List<Character>> characters = await _rickAndMortyClient.GetCharacters(new Dictionary<string, string> { { "name", "Rick" } });
+
         }
     }
 }
