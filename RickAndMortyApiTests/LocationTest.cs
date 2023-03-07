@@ -11,7 +11,7 @@ using RickAndMortyApiTests.Clients;
 
 namespace RickAndMortyApiTests
 {
-    public class LocationEndpointTest
+    public class LocationTest
     {
         static RestClient _client = new RestClient(new RestClientOptions("https://rickandmortyapi.com"));
         static RickAndMortyClient _rickAndMortyClient = new RickAndMortyClient();

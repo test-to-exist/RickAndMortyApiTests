@@ -32,7 +32,13 @@ namespace RickAndMortyApiTests.Clients
             return GetEntity<Location>(nameof(Location).ToLower(), id);
         }
 
-        private Task<RestResponse<T>> GetEntity<T>(string entity, int id) {
+        public Task<RestResponse<Episode>> GetEpisode(int id)
+        {
+            return GetEntity<Episode>(nameof(Episode).ToLower(), id);
+        }
+
+        private Task<RestResponse<T>> GetEntity<T>(string entity, int id)
+        {
             var request = new RestRequest("/api/{entity}/{id}");
             request.AddUrlSegment("entity", entity);
             request.AddUrlSegment("id", id.ToString());

@@ -16,7 +16,7 @@ public class RickAndMortyApiError
 
 namespace RickAndMortyApiTests
 {
-    public class CharacterEndpointTest
+    public class CharacterTest
     {
         static RestClient _client = new RestClient(new RestClientOptions("https://rickandmortyapi.com"));
         static RickAndMortyClient _rickAndMortyClient = new RickAndMortyClient();
