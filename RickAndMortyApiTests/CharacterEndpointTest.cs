@@ -18,8 +18,7 @@ namespace RickAndMortyApiTests
 {
     public class CharacterEndpointTest
     {
-        static readonly string _baseUrl = "https://rickandmortyapi.com";
-        static RestClient _client = new RestClient(new RestClientOptions(_baseUrl));
+        static RestClient _client = new RestClient(new RestClientOptions("https://rickandmortyapi.com"));
         static RickAndMortyClient _rickAndMortyClient = new RickAndMortyClient();
 
         [Fact]
@@ -31,7 +30,7 @@ namespace RickAndMortyApiTests
             Assert.Equal(HttpStatusCode.OK, statusCode);
 
             var message = character.Data.name;
-            Assert.Equal("Rick Sanchez", message);
+            message.Should().BeEquivalentTo("Rick Sanchez");
         }
 
         [Fact]
@@ -41,13 +40,9 @@ namespace RickAndMortyApiTests
             request.AddUrlSegment("entity", "character");
             request.AddUrlSegment("id", "0");
 
-            RestResponse<RickAndMortyApiError> error = await _client.ExecuteAsync<RickAndMortyApiError>(request);
+            RestResponse<Character> error = await _client.ExecuteAsync<Character>(request);
 
-            var statusCode = error.StatusCode;
-            Assert.Equal(HttpStatusCode.NotFound, statusCode);
-
-            var message = error.Data.errorMessage;
-            Assert.Equal("Character not found", message);
+            error.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }

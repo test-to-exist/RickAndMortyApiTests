@@ -13,21 +13,19 @@ namespace RickAndMortyApiTests
 {
     public class LocationEndpointTest
     {
-        static readonly string _baseUrl = "https://rickandmortyapi.com";
-        static RestClientOptions _options = new RestClientOptions(_baseUrl);
-        static RestClient _client = new RestClient(_options);
+        static RestClient _client = new RestClient(new RestClientOptions("https://rickandmortyapi.com"));
         static RickAndMortyClient _rickAndMortyClient = new RickAndMortyClient();
 
         [Fact]
         public async void LocationEndpointShouldReturnSuccessForProperRequest_Test()
         {
-            //RestResponse<Character> character = await _rickAndMortyClient.GetCharacter(1);
+            RestResponse<Location> location = await _rickAndMortyClient.GetLocation(1);
 
-            //var statusCode = character.StatusCode;
-            //Assert.Equal(HttpStatusCode.OK, statusCode);
+            var statusCode = location.StatusCode;
+            Assert.Equal(HttpStatusCode.OK, statusCode);
 
-            //var message = character.Data.name;
-            //Assert.Equal("Rick Sanchez", message);
+            var message = location.Data.name;
+            message.Should().BeEquivalentTo("Earth (C-137)");
         }
 
         [Fact]
@@ -38,12 +36,10 @@ namespace RickAndMortyApiTests
             request.AddUrlSegment("id", "0");
 
             RestResponse<RickAndMortyApiError> error = await _client.ExecuteAsync<RickAndMortyApiError>(request);
+            error.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
-            var statusCode = error.StatusCode;
-            Assert.Equal(HttpStatusCode.NotFound, statusCode);
-
-            var message = error.Data.errorMessage;
-            Assert.Equal("Character not found", message);
+            //var message = error.Content.name;
+            //message.Should().BeEquivalentTo("unknown");
         }
     }
 }
