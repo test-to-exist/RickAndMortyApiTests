@@ -5,6 +5,7 @@ using Xunit;
 using FluentAssertions;
 using RickAndMortyApiTests.DTO;
 using RickAndMortyApiTests.Clients;
+using System.Threading.Tasks;
 
 
 
@@ -17,7 +18,7 @@ namespace RickAndMortyApiTests
         static RickAndMortyClient _rickAndMortyClient = new RickAndMortyClient();
 
         [Fact]
-        public async void EpisodeEndpointShouldReturnSuccessForProperRequest_Test()
+        public async Task EpisodeEndpointShouldReturnSuccessForProperRequest_Test()
         {
             RestResponse<Episode> episode = await _rickAndMortyClient.GetEpisode(1);
 
@@ -29,7 +30,7 @@ namespace RickAndMortyApiTests
         }
 
         [Fact]
-        public async void EpisodeEndpointShouldReturnFailForRequestWithWrongParam_Test()
+        public async Task EpisodeEndpointShouldReturnFailForRequestWithWrongParam_Test()
         {
             var request = new RestRequest("/api/{entity}/{id}");
             request.AddUrlSegment("entity", "episode");

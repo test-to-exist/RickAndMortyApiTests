@@ -6,6 +6,7 @@ using FluentAssertions;
 using RickAndMortyApiTests.DTO;
 using RickAndMortyApiTests.Clients;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class RickAndMortyApiError
 {
@@ -21,7 +22,7 @@ namespace RickAndMortyApiTests
         static RickAndMortyClient _rickAndMortyClient = new RickAndMortyClient();
 
         [Fact]
-        public async void CharacterEndpointShouldReturnSuccessForProperRequest_Test()
+        public async Task CharacterEndpointShouldReturnSuccessForProperRequest_Test()
         {
             RestResponse<Character> character = await _rickAndMortyClient.GetCharacter(1);
 
@@ -33,7 +34,7 @@ namespace RickAndMortyApiTests
         }
 
         [Fact]
-        public async void CharacterEndpointShouldReturnFailForRequestWithWrongParam_Test()
+        public async Task CharacterEndpointShouldReturnFailForRequestWithWrongParam_Test()
         {
             var request = new RestRequest("/api/{entity}/{id}");
             request.AddUrlSegment("entity", "character");
@@ -46,7 +47,7 @@ namespace RickAndMortyApiTests
 
         //[Theory]
         [Fact]
-        public async void CharacterEndpointWithNameFilterShouldReturnListWIthProperNames_Test()
+        public async Task CharacterEndpointWithNameFilterShouldReturnListWIthProperNames_Test()
         {
             RestResponse<List<Character>> characters = await _rickAndMortyClient.GetCharacters(new Dictionary<string, string> { { "name", "Rick" } });
 
